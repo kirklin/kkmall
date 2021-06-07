@@ -10,11 +10,14 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>kkmall-common</module>
         <module>kkmall-coupon</module>
         <module>kkmall-member</module>
         <module>kkmall-order</module>
         <module>kkmall-product</module>
         <module>kkmall-ware</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
     </modules>
 
 </project>

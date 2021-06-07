@@ -18,6 +18,13 @@
         <spring-cloud.version>2020.0.3</spring-cloud.version>
     </properties>
     <dependencies>
+        <!--        每个微服务的公共的依赖，bean，工具类等等-->
+        <dependency>
+            <groupId>name.lkk.kkmall</groupId>
+            <artifactId>kkmall-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
