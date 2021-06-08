@@ -1,17 +1,16 @@
-package name.lkk.kkmall.order;
+package name.lkk.kkmall.gateway;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("name.lkk.kkmall.order.dao")
-public class KkmallOrderApplication {
+@SpringBootApplication
+public class KkmallGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KkmallOrderApplication.class, args);
+        SpringApplication.run(KkmallGatewayApplication.class, args);
     }
 
 }
