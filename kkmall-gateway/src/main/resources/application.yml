@@ -9,12 +9,42 @@ spring:
           uri: http://www.baidu.com
           predicates:
           - Query=url,baidu
-
         - id: qq_route
           uri: http://www.qq.com
           predicates:
           - Query=url,qq
 
+        - id: product_route
+          uri: lb://kkmall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id: coupon_route
+          uri: lb://kkmall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id: member_route
+          uri: lb://kkmall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id: ware_route
+          uri: lb://kkmall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+#过滤器要放最下面才不会被替换路径/api/*路径
+        - id: admin_route
+          uri: lb://kkmall-admin
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
   application:
     name: kkmall-gateway
 server:

@@ -5,4 +5,3 @@ spring:
     nacos:
       config:
         server-addr: localhost:8848
-        namespace: 1491b51d-35bb-4278-8760-80cdbd28eb31

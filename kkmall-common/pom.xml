@@ -15,7 +15,7 @@
         <java.version>1.8</java.version>
         <mysql.version>8.0.23</mysql.version>
         <commons.lang.version>2.6</commons.lang.version>
-        <hutool.version>4.1.1</hutool.version>
+        <hutool.version>5.6.6</hutool.version>
         <lombok.version>1.18.18</lombok.version>
         <javax.servlet.version>2.5</javax.servlet.version>
     </properties>
