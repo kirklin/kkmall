@@ -38,6 +38,14 @@ spring:
             - Path=/api/ware/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+        #  OSS签名的转发
+        - id: third-server_route
+          uri: lb://kkmall-third-server
+          predicates:
+            - Path=/api/third/server/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+
 #过滤器要放最下面才不会被替换路径/api/*路径
         - id: admin_route
           uri: lb://kkmall-admin

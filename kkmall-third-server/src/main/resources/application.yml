@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: kkmall-third-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      oss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+        bucket: mall-kk
+      access-key: LTAI5tCHtotRisgLvCsp5pv5
+      secret-key: zWiSQOcz5faTSkropwNssB7rqgMYmV
+server:
+  port: 30000
