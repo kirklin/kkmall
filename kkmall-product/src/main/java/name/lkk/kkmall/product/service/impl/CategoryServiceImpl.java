@@ -1,21 +1,17 @@
 package name.lkk.kkmall.product.service.impl;
 
-import org.springframework.stereotype.Service;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
-
 import name.lkk.kkmall.product.dao.CategoryDao;
 import name.lkk.kkmall.product.entity.CategoryEntity;
 import name.lkk.kkmall.product.service.CategoryService;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service("categoryService")
@@ -71,5 +67,27 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void removeMenuByIds(List<Long> asList) {
         // TODO 检查当前节点是否被别的地方引用
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] findCateLogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        paths = findParentPath(catelogId, paths);
+        // 收集的时候是顺序 前端是逆序显示的 所以用集合工具类给它逆序一下
+        Collections.reverse(paths);
+        return paths.toArray(new Long[paths.size()]);
+    }
+
+    /**
+     * 递归收集所有节点
+     */
+    private List<Long> findParentPath(Long catlogId, List<Long> paths) {
+        // 1、收集当前节点id
+        paths.add(catlogId);
+        CategoryEntity byId = this.getById(catlogId);
+        if (byId.getParentCid() != 0) {
+            findParentPath(byId.getParentCid(), paths);
+        }
+        return paths;
     }
 }

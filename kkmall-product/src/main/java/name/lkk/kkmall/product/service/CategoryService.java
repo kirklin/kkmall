@@ -34,5 +34,10 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> getChildrens(CategoryEntity root, List<CategoryEntity> all);
 
     void removeMenuByIds(List<Long> asList);
+    /**
+     * 找到catalogId 完整路径
+     */
+    Long[] findCateLogPath(Long catelogId);
+
 }
 

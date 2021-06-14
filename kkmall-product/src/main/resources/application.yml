@@ -21,5 +21,7 @@ mybatis-plus:
       # 配置逻辑删除 1代表删除 0代表已删除
       logic-delete-value: 1
       logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 server:
   port: 10000

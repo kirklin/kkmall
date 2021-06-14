@@ -1,19 +1,15 @@
 package name.lkk.kkmall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import name.lkk.kkmall.product.entity.AttrGroupEntity;
-import name.lkk.kkmall.product.service.AttrGroupService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
+import name.lkk.kkmall.product.entity.AttrGroupEntity;
+import name.lkk.kkmall.product.service.AttrGroupService;
+import name.lkk.kkmall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -30,6 +26,9 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     /**
      * 列表
      */
@@ -41,6 +40,15 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 列表的属性分组
+     * http://127.0.0.1:88/api/product/attrgroup/list/1?page=1&key=aa
+     */
+    @RequestMapping("/list/{catelogId}")
+    public R list(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId){
+        PageUtils page =  attrGroupService.queryPage(params, catelogId);
+        return R.ok().put("page", page);
+    }
 
     /**
      * 信息
@@ -48,8 +56,9 @@ public class AttrGroupController {
     @RequestMapping("/info/{attrGroupId}")
     //@RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
-		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
-
+        AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
+        // 用当前当前分类id查询完整路径并写入 attrGroup
+        attrGroup.setCatelogPath(categoryService.findCateLogPath(attrGroup.getCatelogId()));
         return R.ok().put("attrGroup", attrGroup);
     }
 
