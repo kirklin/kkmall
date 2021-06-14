@@ -1,5 +1,5 @@
 <template>
-<!-- 
+<!--
 使用说明：
 1）、引入category-cascader.vue
 2）、语法：<category-cascader :catelogPath.sync="catelogPath"></category-cascader>
@@ -10,7 +10,7 @@
   <div>
     <el-cascader
       filterable
-      clearable 
+      clearable
       placeholder="试试搜索：手机"
       v-model="paths"
       :options="categorys"
@@ -66,11 +66,11 @@ export default {
       });
     }
   },
-  //生命周期 - 创建完成（可以访问当前this实例）
+  //生命周期 - 创建完成（可以访问当前this实例）
   created() {
     this.getCategorys();
   }
 };
 </script>
-<style scoped>
+<style scoped>
 </style>
