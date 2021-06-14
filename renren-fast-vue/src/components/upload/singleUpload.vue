@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-      action="http://mall-fire.oss-cn-shenzhen.aliyuncs.com"
+      action="http://mall-kk.oss-cn-hangzhou.aliyuncs.com"
       :data="dataObj"
       list-type="picture"
       :multiple="false"
@@ -21,8 +21,8 @@
   </div>
 </template>
 <script>
-import { policy } from "./policy";
-import { getUUID } from "@/utils";
+import {policy} from "./policy";
+import {getUUID} from "@/utils";
 
 export default {
   name: "singleUpload",

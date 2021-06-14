@@ -7,8 +7,11 @@ import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
 import name.lkk.kkmall.product.dao.CategoryDao;
 import name.lkk.kkmall.product.entity.CategoryEntity;
+import name.lkk.kkmall.product.service.CategoryBrandRelationService;
 import name.lkk.kkmall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -35,15 +41,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public List<CategoryEntity> listWithTree() {
         List<CategoryEntity> entities = baseMapper.selectList(null);
         // 筛选出所有一级分类
-        List<CategoryEntity> level1Menus = entities.stream().
-                filter((categoryEntity) -> categoryEntity.getParentCid() == 0)
-                .map((menu) -> {
-                    menu.setChildren(getChildrens(menu, entities));
-                    return menu;
-                }).sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort())))
-                .collect(Collectors.toList());
 
-        return level1Menus;
+        return entities.stream().
+                filter((categoryEntity) -> categoryEntity.getParentCid() == 0)
+                .peek((menu) -> menu.setChildren(getChildrens(menu, entities))).sorted(Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort())))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -55,7 +57,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public List<CategoryEntity> getChildrens(CategoryEntity root, List<CategoryEntity> all){
         List<CategoryEntity> children = all.stream().filter(categoryEntity ->
-                categoryEntity.getParentCid() == root.getCatId()
+                categoryEntity.getParentCid().equals(root.getCatId())
         ).map(categoryEntity -> {
             categoryEntity.setChildren(getChildrens(categoryEntity, all));
             return categoryEntity;
@@ -76,6 +78,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // 收集的时候是顺序 前端是逆序显示的 所以用集合工具类给它逆序一下
         Collections.reverse(paths);
         return paths.toArray(new Long[paths.size()]);
+    }
+
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
     /**
