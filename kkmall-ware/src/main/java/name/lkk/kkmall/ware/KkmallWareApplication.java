@@ -1,13 +1,13 @@
 package name.lkk.kkmall.ware;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("name.lkk.kkmall.ware.dao")
+@EnableFeignClients("name.lkk.kkmall.ware.feign")
 public class KkmallWareApplication {
 
     public static void main(String[] args) {
