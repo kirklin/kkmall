@@ -1,19 +1,14 @@
 package name.lkk.kkmall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import name.lkk.kkmall.product.entity.SkuImagesEntity;
-import name.lkk.kkmall.product.service.SkuImagesService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
+import name.lkk.kkmall.product.entity.SkuImagesEntity;
+import name.lkk.kkmall.product.service.SkuImagesService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -26,7 +21,7 @@ import name.lkk.common.utils.R;
  */
 @RestController
 @RequestMapping("product/skuimages")
-public class SkuImagesController {
+public class  SkuImagesController {
     @Autowired
     private SkuImagesService skuImagesService;
 
@@ -57,10 +52,9 @@ public class SkuImagesController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:skuimages:save")
     public R save(@RequestBody SkuImagesEntity skuImages){
-		skuImagesService.save(skuImages);
-
+        skuImages.setImgSort(0);
+        skuImagesService.save(skuImages);
         return R.ok();
     }
 

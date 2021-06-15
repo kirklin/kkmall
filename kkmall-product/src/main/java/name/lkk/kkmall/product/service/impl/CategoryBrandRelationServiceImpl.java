@@ -12,11 +12,14 @@ import name.lkk.kkmall.product.dao.CategoryDao;
 import name.lkk.kkmall.product.entity.BrandEntity;
 import name.lkk.kkmall.product.entity.CategoryBrandRelationEntity;
 import name.lkk.kkmall.product.entity.CategoryEntity;
+import name.lkk.kkmall.product.service.BrandService;
 import name.lkk.kkmall.product.service.CategoryBrandRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -26,6 +29,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryBrandRelationDao categoryBrandRelationDao;
+
+    @Autowired
+    private BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -65,5 +74,18 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         categoryBrandRelation.setBrandName(brandEntity.getName());
         categoryBrandRelation.setCatelogName(categoryEntity.getName());
         this.save(categoryBrandRelation);
+    }
+    /**
+     * 获取某个分类下所有品牌信息
+     */
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> catelogId = categoryBrandRelationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        // 根据品牌id查询详细信息
+        //List<Long> brandIds = catelogId.stream().map(item->{
+        //            return item.getBrandId();
+        //        }).collect(Collectors.toList());
+        List<Long> brandIds = catelogId.stream().map(CategoryBrandRelationEntity::getBrandId).collect(Collectors.toList());
+        return brandService.listByIds(brandIds);
     }
 }

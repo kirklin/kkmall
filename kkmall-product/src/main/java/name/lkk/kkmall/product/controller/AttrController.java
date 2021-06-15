@@ -1,19 +1,18 @@
 package name.lkk.kkmall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import name.lkk.kkmall.product.entity.AttrEntity;
-import name.lkk.kkmall.product.service.AttrService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
+import name.lkk.kkmall.product.entity.ProductAttrValueEntity;
+import name.lkk.kkmall.product.service.AttrService;
+import name.lkk.kkmall.product.service.ProductAttrValueService;
+import name.lkk.kkmall.product.vo.AttrRespVo;
+import name.lkk.kkmall.product.vo.AttrVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -29,6 +28,31 @@ import name.lkk.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    @PostMapping("/update/{spuId}")
+    public R updateSpiAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValueEntity> entities){
+        productAttrValueService.updateSpuAttr(spuId, entities);
+        return R.ok();
+    }
+
+    /**
+     * 查询属性规格
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrListForSpu(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrListForSpu(spuId);
+        return R.ok().put("data", entities);
+    }
+
+    @GetMapping("/{attrType}/list/{catelogId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params ,@PathVariable("catelogId") Long catelogId, @PathVariable("attrType") String attrType){
+
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, attrType);
+        return R.ok().put("page", page);
+    }
 
     /**
      * 列表
@@ -46,32 +70,28 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+        AttrRespVo respVo = attrService.getAttrInfo(attrId);
+       return R.ok().put("data", respVo);
+       //return R.ok().put("attr", respVo).put("data", respVo);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attrVo){
+        attrService.saveAttr(attrVo);
 
         return R.ok();
     }
 
     /**
-     * 修改
+     * 更改规格参数：参数名、参数id、参数、状态的一一对应
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+    public R update(@RequestBody AttrVo attrVo){
+        attrService.updateAttr(attrVo);
         return R.ok();
     }
 
@@ -79,9 +99,8 @@ public class AttrController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:attr:delete")
     public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+        attrService.removeByIds(Arrays.asList(attrIds));
 
         return R.ok();
     }

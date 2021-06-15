@@ -56,7 +56,7 @@
           <el-table-column prop="icon" header-align="center" align="center" label="图标">
             <template slot-scope="scope">
               <!-- 自定义表格+自定义图片 -->
-              <img :src="scope.row.logo" style="width: 60px; height: 60px" />
+              <img :src="scope.row.icon" style="width: 60px; height: 60px" />
             </template>
           </el-table-column>
           <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值">
@@ -135,6 +135,7 @@
 <script>
 import Category from "../common/category";
 import AddOrUpdate from "./attr-add-or-update";
+
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Category, AddOrUpdate },

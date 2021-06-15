@@ -104,6 +104,7 @@
 <script>
 import AddOrUpdate from "./brand-add-or-update";
 import CategoryCascader from "../common/category-cascader";
+
 export default {
   data() {
     return {
@@ -211,7 +212,7 @@ export default {
           type: "success",
           message: "状态更新成功"
         });
-      }).catch(() => {});;
+      }).catch(() => {});
     },
     // 每页数
     sizeChangeHandle(val) {

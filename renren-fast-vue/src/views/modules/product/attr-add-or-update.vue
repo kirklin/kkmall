@@ -91,6 +91,7 @@
 
 <script>
 import CategoryCascader from "../common/category-cascader";
+
 export default {
   data() {
     return {
@@ -214,20 +215,20 @@ export default {
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.attrName = data.attr.attrName;
-              this.dataForm.searchType = data.attr.searchType;
-              this.dataForm.valueType = data.attr.valueType;
-              this.dataForm.icon = data.attr.icon;
-              this.dataForm.valueSelect = data.attr.valueSelect.split(";");
-              this.dataForm.attrType = data.attr.attrType;
-              this.dataForm.enable = data.attr.enable;
-              this.dataForm.catelogId = data.attr.catelogId;
-              this.dataForm.showDesc = data.attr.showDesc;
+              this.dataForm.attrName = data.data.attrName;
+              this.dataForm.searchType = data.data.searchType;
+              this.dataForm.valueType = data.data.valueType;
+              this.dataForm.icon = data.data.icon;
+              this.dataForm.valueSelect = data.data.valueSelect.split(";");
+              this.dataForm.attrType = data.data.attrType;
+              this.dataForm.enable = data.data.enable;
+              this.dataForm.catelogId = data.data.catelogId;
+              this.dataForm.showDesc = data.data.showDesc;
               //attrGroupId
               //catelogPath
-              this.catelogPath = data.attr.catelogPath;
+              this.catelogPath = data.data.catelogPath;
               this.$nextTick(() => {
-                this.dataForm.attrGroupId = data.attr.attrGroupId;
+                this.dataForm.attrGroupId = data.data.attrGroupId;
               });
             }
           });

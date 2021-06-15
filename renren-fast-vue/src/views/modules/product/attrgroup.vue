@@ -39,7 +39,7 @@
           <el-table-column prop="descript" header-align="center" align="center" label="描述"></el-table-column>
           <el-table-column prop="icon" header-align="center" align="center" label="组图标">
             <template slot-scope="scope">
-              <img :src="scope.row.logo" style="width: 60px; height: 60px" />
+              <img :src="scope.row.icon" style="width: 60px; height: 60px" />
             </template>
           </el-table-column>
           <el-table-column prop="catelogId" header-align="center" align="center" label="分类id"></el-table-column>
@@ -92,6 +92,7 @@
 import Category from "../common/category";
 import AddOrUpdate from "./attrgroup-add-or-update";
 import RelationUpdate from "./attr-group-relation";
+
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { Category, AddOrUpdate, RelationUpdate },

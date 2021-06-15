@@ -3,7 +3,9 @@ package name.lkk.kkmall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.kkmall.product.entity.SkuSaleAttrValueEntity;
+import name.lkk.kkmall.product.vo.ItemSaleAttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,8 @@ import java.util.Map;
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    List<ItemSaleAttrVo> getSaleAttrsBuSpuId(Long spuId);
+
+    List<String> getSkuSaleAttrValuesAsStringList(Long skuId);
 }
 

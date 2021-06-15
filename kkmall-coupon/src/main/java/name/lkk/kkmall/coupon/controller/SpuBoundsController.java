@@ -1,19 +1,14 @@
 package name.lkk.kkmall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import name.lkk.kkmall.coupon.entity.SpuBoundsEntity;
-import name.lkk.kkmall.coupon.service.SpuBoundsService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
+import name.lkk.kkmall.coupon.entity.SpuBoundsEntity;
+import name.lkk.kkmall.coupon.service.SpuBoundsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -53,13 +48,13 @@ public class SpuBoundsController {
         return R.ok().put("spuBounds", spuBounds);
     }
 
+
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:spubounds:save")
+    @PostMapping("/save")
     public R save(@RequestBody SpuBoundsEntity spuBounds){
-		spuBoundsService.save(spuBounds);
+        spuBoundsService.save(spuBounds);
 
         return R.ok();
     }

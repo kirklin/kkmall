@@ -19,7 +19,7 @@ import java.util.Map;
  * @author kirklin
  */
 @Slf4j
-@RestControllerAdvice(basePackages = "com.firenay.mall.product.controller")
+@RestControllerAdvice(basePackages = "name.lkk.kkmall.product.controller")
 public class MallExceptionControllerAdvice {
 
 

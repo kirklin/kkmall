@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author: kirklin
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @MapperScan("name.lkk.kkmall.product.dao")
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "name.lkk.kkmall.product.feign")
 public class KkmallProductApplication {
 
     public static void main(String[] args) {
