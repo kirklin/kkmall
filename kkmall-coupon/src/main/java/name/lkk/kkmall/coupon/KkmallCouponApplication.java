@@ -7,7 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("name.lkk.kkmall.coupon.dao")
 public class KkmallCouponApplication {
 
     public static void main(String[] args) {
