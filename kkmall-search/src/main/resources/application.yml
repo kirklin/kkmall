@@ -1,0 +1,9 @@
+server:
+  port: 12000
+spring:
+  application:
+    name: kkmall-search
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

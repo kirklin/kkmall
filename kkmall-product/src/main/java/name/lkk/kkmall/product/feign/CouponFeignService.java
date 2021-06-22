@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * <p>Title: CouponFeignService</p>
- * Description：远程调用优惠券服务
- * date：2020/6/5 17:06
+ * 远程调用优惠券服务
  */
 @FeignClient("kkmall-coupon")
 public interface CouponFeignService {
