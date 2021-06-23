@@ -8,9 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * <p>Title: Catelog2Vo</p>
- * Description：
- * date：2020/6/9 14:41
+ * 首页二级分类
+ * @author kirklin
  */
 @AllArgsConstructor
 @NoArgsConstructor

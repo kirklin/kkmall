@@ -3,6 +3,7 @@ package name.lkk.kkmall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.kkmall.product.entity.CategoryEntity;
+import name.lkk.kkmall.product.vo.Catelog2Vo;
 
 import java.util.List;
 import java.util.Map;
@@ -43,5 +44,13 @@ public interface CategoryService extends IService<CategoryEntity> {
      * 级联更新所有数据
      */
     void updateCascade(CategoryEntity category);
+
+    /**
+     * 获取一级分类
+     * @return
+     */
+    List<CategoryEntity> getLevel1Categories();
+
+    Map<String, List<Catelog2Vo>> getCatelogJson();
 }
 
