@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
 import name.lkk.kkmall.product.dao.CategoryDao;
@@ -16,16 +17,16 @@ import name.lkk.kkmall.product.vo.Catelog2Vo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
@@ -130,9 +131,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         String catelogJSON = operations.get("catelogJSON");
         if (ObjectUtils.isEmpty(catelogJSON)) {
 
-            catelogJson = getCatelogJsonFromDBWithLocalLock();
+            catelogJson = getCatelogJsonFromDBWithRedisLock();
         } else {
-            System.out.println("缓存命中。。。查询缓存");
+            log.debug("缓存命中。。。查询缓存");
             catelogJson = JSON.parseObject(catelogJSON, new TypeReference<Map<String, List<Catelog2Vo>>>() {
             });
         }
@@ -140,7 +141,46 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
+     * 分布式锁
+     *
+     * @return
+     */
+    public Map<String, List<Catelog2Vo>> getCatelogJsonFromDBWithRedisLock() {
+        String uuid = UUID.randomUUID().toString();
+        // 1.占分布式锁  设置这个锁30秒自动删除 [原子操作]
+        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", uuid, 30, TimeUnit.SECONDS);
+
+        if (lock) {
+            // 2.设置过期时间加锁成功 获取数据释放锁 [分布式下必须是Lua脚本删锁,不然会因为业务处理时间、网络延迟等等引起数据还没返回锁过期或者返回的过程中过期 然后把别人的锁删了]
+            Map<String, List<Catelog2Vo>> data;
+            try {
+                data = getCatelogJsonFormDB();
+            } finally {
+//			 stringRedisTemplate.delete("lock");
+                //          String lockValue = stringRedisTemplate.opsForValue().get("lock");
+
+                // 删除也必须是原子操作 Lua脚本操作 删除成功返回1 否则返回0
+                String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+                // 原子删锁
+                stringRedisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class), Collections.singletonList("lock"), uuid);
+            }
+            return data;
+        } else {
+            // 重试加锁
+            //暂停200毫秒线程
+            try {
+                log.debug("Redis已加锁，等待重试");
+                TimeUnit.MILLISECONDS.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return getCatelogJsonFromDBWithRedisLock();
+        }
+    }
+
+    /**
      * 从数据库中查询CatelogJson
+     *
      * @return
      */
     public Map<String, List<Catelog2Vo>> getCatelogJsonFormDB() {
@@ -150,6 +190,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             return JSON.parseObject(catelogJSON, new TypeReference<Map<String, List<Catelog2Vo>>>() {
             });
         }
+        log.debug("getCatelogJsonFormDB() ==> REDIS中无数据，正在查询数据");
         // 优化：将查询变为一次
         List<CategoryEntity> entityList = baseMapper.selectList(null);
 
@@ -189,7 +230,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             });
         }
         synchronized (this) {
-            System.out.println("缓存未命中。。。查询数据库。[本地锁解决方案]");
+            log.debug("缓存未命中。。。查询数据库。[本地锁解决方案]");
 
             // 优化：将查询变为一次
             List<CategoryEntity> entityList = baseMapper.selectList(null);

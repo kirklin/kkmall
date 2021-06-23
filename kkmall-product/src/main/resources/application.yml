@@ -38,4 +38,4 @@ server:
 
 logging:
   level:
-    name.lkk.kkmall: error
+    name.lkk.kkmall: debug
