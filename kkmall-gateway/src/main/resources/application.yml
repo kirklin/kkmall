@@ -54,7 +54,7 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
 
-        # 任何以mall.com结尾的域名转发到mall-product
+        # 任何以kkmall.com结尾的域名转发到kkmall-product
         # 注意！！！Nginx代理给网关的时候，会丢失请求Host
         - id: kkmall_route
           uri: lb://kkmall-product

@@ -5,7 +5,6 @@ spring:
     url: jdbc:mysql://localhost:3306/kkmall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 66CcFf!!
-
   cloud:
     nacos:
       discovery:
@@ -19,6 +18,10 @@ spring:
     static-path-pattern: /static/**
   thymeleaf:
     cache: true
+  redis:
+    host: localhost
+    port: 6379
+    password: linkekun
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
@@ -32,3 +35,7 @@ mybatis-plus:
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 server:
   port: 10000
+
+logging:
+  level:
+    name.lkk.kkmall: error
