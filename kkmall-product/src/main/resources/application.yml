@@ -1,8 +1,9 @@
+ipAddr: localhost
 spring:
   datasource:
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kkmall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://${ipAddr}:3306/kkmall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 66CcFf!!
   cloud:
@@ -18,10 +19,25 @@ spring:
     static-path-pattern: /static/**
   thymeleaf:
     cache: true
+    suffix: .html
+    prefix: classpath:/templates/
+
   redis:
-    host: localhost
+    host: ${ipAddr}
     port: 6379
     password: linkekun
+
+  #   设置缓存类型
+  cache:
+    type: redis
+    #   设置存活时间
+    redis:
+      time-to-live: 3600000
+      #      如果指定了前缀就用我们指定的 如果没有就用缓存的名字作为前缀
+      #      key-prefix: CACHE_
+      #      是否缓存空值,解决缓存穿透问题
+      cache-null-values: true
+#    cache-names:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

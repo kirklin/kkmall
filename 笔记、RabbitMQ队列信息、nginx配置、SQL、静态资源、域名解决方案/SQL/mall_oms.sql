@@ -225,7 +225,7 @@ CREATE TABLE `oms_payment_info`  (
 -- ----------------------------
 -- Records of oms_payment_info
 -- ----------------------------
-INSERT INTO `oms_payment_info` VALUES (1, '202007051323559261279647175235624962', NULL, '2020070522001473990501031834', 5990.0000, 'glmall', 'TRADE_SUCCESS', '2020-07-05 05:24:06', NULL, NULL, '2020-07-05 05:24:21');
+INSERT INTO `oms_payment_info` VALUES (1, '202007051323559261279647175235624962', NULL, '2020070522001473990501031834', 5990.0000, 'kkmall', 'TRADE_SUCCESS', '2020-07-05 05:24:06', NULL, NULL, '2020-07-05 05:24:21');
 
 -- ----------------------------
 -- Table structure for oms_refund_info

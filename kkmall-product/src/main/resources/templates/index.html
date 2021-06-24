@@ -93,20 +93,20 @@
         <ul>
             <li th:if="${session.loginUser} !=null">
               <a>欢迎，[[${session.loginUser.username}]]</a>
-<!--              <a th:href="'http://member.glmall.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>-->
+<!--              <a th:href="'http://member.kkmall.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>-->
             </li>
             <li th:if="${session.loginUser} !=null">
-              <a href="http://auth.glmall.com/oauth2.0/logout">退出登录</a>
+              <a href="http://auth.kkmall.com/oauth2.0/logout">退出登录</a>
             </li>
             <li th:if="${session.loginUser} ==null">
-              <a href="http://auth.glmall.com/login.html">你好，请登录 </a>
+              <a href="http://auth.kkmall.com/login.html">你好，请登录 </a>
             </li>
             <li th:if="${session.loginUser} ==null">
-              <a href="http://auth.glmall.com/reg.html" class="li_2">免费注册</a>
+              <a href="http://auth.kkmall.com/reg.html" class="li_2">免费注册</a>
             </li>
           <span>|</span>
           <li th:if="${session.loginUser} !=null">
-            <a href="http://member.glmall.com/memberOrder.html">我的订单</a>
+            <a href="http://member.kkmall.com/memberOrder.html">我的订单</a>
           </li>
         </ul>
       </div>
@@ -122,7 +122,7 @@
       <div class="header_ico">
         <div class="header_gw">
           <img src="/static/index/img/img_15.png" />
-          <span><a href="http://cart.glmall.com/cart.html">我的购物车</a></span>
+          <span><a href="http://cart.kkmall.com/cart.html">我的购物车</a></span>
           <span>0</span>
         </div>
         <div class="header_ko">
@@ -580,13 +580,13 @@
 <script type="text/javascript">
   function search() {
       var keyword=$("#searchText").val()
-      window.location.href="http://search.glmall.com/list.html?keyword="+keyword;
+      window.location.href="http://search.kkmall.com/list.html?keyword="+keyword;
   }
 
   function to_href(skuId){
-      location.href = "http://item.glmall.com/" + skuId + ".html";
+      location.href = "http://item.kkmall.com/" + skuId + ".html";
   }
-  $.get("http://seckill.glmall.com/currentSeckillSkus",function (resp) {
+  $.get("http://seckill.kkmall.com/currentSeckillSkus",function (resp) {
       if(resp.data.length > 0){
           resp.data.forEach(function (item) {
               $("<li onclick='to_href(" + item.skuId + ")'></li>")
