@@ -3,7 +3,19 @@ server:
 spring:
   application:
     name: kkmall-search
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false
+    suffix: .html
+    prefix: classpath:/templates/
+
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
+
+
+logging:
+  level:
+    name.lkk.kkmall: debug

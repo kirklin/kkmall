@@ -16,6 +16,9 @@
         <module>kkmall-order</module>
         <module>kkmall-product</module>
         <module>kkmall-ware</module>
+        <module>kkmall-search</module>
+        <module>kkmall-third-server</module>
+        <module>kkmall-gateway</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
     </modules>

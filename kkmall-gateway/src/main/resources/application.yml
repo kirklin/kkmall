@@ -53,10 +53,33 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
-
+        - id: kkmall_search_route
+          uri: lb://kkmall-search
+          predicates:
+            - Host=search.kkmall.com
+        - id: kkmall_auth_route
+          uri: lb://kkmall-auth-server
+          predicates:
+            - Host=auth.kkmall.com
+        - id: kkmall_seckill_route
+          uri: lb://kkmall-seckill
+          predicates:
+            - Host=seckill.kkmall.com
+        - id: kkmall_cart_route
+          uri: lb://kkmall-cart
+          predicates:
+            - Host=cart.kkmall.com
+        - id: kkmall_member_route
+          uri: lb://kkmall-member
+          predicates:
+            - Host=member.kkmall.com
+        - id: kkmall_order_route
+          uri: lb://kkmall-order
+          predicates:
+            - Host=order.kkmall.com  
         # 任何以kkmall.com结尾的域名转发到kkmall-product
         # 注意！！！Nginx代理给网关的时候，会丢失请求Host
-        - id: kkmall_route
+        - id: kkmall_host_route
           uri: lb://kkmall-product
           predicates:
             - Host=**.kkmall.com,kkmall.com,item.kkmall.com

@@ -1,0 +1,9 @@
+POST /_reindex
+{
+  "source": {
+    "index": "product"
+  }
+  , "dest": {
+    "index": "kkmall_product"
+  }
+}
