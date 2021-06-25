@@ -5,6 +5,9 @@ import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * 查询商品详情VO->参数规格信息
+ */
 @ToString
 @Data
 public class SpuItemAttrGroup{

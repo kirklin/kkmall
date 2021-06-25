@@ -8,9 +8,7 @@ import name.lkk.kkmall.product.entity.SpuInfoDescEntity;
 import java.util.List;
 
 /**
- * <p>Title: SkuItemVo</p>
- * Description：
- * date：2020/6/24 13:33
+ * 查询商品详情VO
  */
 @Data
 public class SkuItemVo {

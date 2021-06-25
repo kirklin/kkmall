@@ -5,6 +5,10 @@ import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * 查询商品详情VO - > 销售属性组合
+ * @author kirklin
+ */
 @ToString
 @Data
 public class ItemSaleAttrVo{

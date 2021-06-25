@@ -55,3 +55,9 @@ server:
 logging:
   level:
     name.lkk.kkmall: debug
+
+kkmall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
