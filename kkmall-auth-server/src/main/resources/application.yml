@@ -1,0 +1,16 @@
+server:
+  port: 20000
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+  application:
+    name: kkmall-auth-server
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false
+    suffix: .html
+    prefix: classpath:/templates/
