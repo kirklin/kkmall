@@ -1,0 +1,51 @@
+ipAddr: localhost
+server:
+  port: 40000
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+  application:
+    name: kkmall-mq
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/
+
+  redis:
+    host: ${ipAddr}
+    port: 6379
+    password: linkekun
+    pool:
+      max-active: 100
+      max-idle: 10
+      min-idle: 0
+      max-wait: 100000
+      timeout: 0
+  #   设置缓存类型
+  cache:
+    type: redis
+    #   设置存活时间
+    redis:
+      time-to-live: 3600000
+      #      如果指定了前缀就用我们指定的 如果没有就用缓存的名字作为前缀
+      #      key-prefix: CACHE_
+      #      是否缓存空值,解决缓存穿透问题
+      cache-null-values: true
+#    cache-names:
+
+logging:
+  level:
+    name.lkk.kkmall: debug
+
+kkmall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
