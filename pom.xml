@@ -20,6 +20,8 @@
         <module>kkmall-third-server</module>
         <module>kkmall-auth-server</module>
         <module>kkmall-gateway</module>
+        <module>kkmall-mq</module>
+        <module>kkmall-cart</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
     </modules>

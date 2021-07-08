@@ -1,0 +1,32 @@
+ipAddr: localhost
+server:
+  port: 40000
+
+spring:
+  application:
+    name: kkmall-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false
+    suffix: .html
+    prefix: classpath:/templates/
+
+  redis:
+    host: ${ipAddr}
+    port: 6379
+    password: linkekun
+
+
+kkmall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
