@@ -21,7 +21,8 @@ spring:
     cache: true
     suffix: .html
     prefix: classpath:/templates/
-
+  session:
+    store-type: redis
   redis:
     host: ${ipAddr}
     port: 6379

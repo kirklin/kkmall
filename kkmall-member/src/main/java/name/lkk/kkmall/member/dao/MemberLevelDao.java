@@ -1,7 +1,7 @@
 package name.lkk.kkmall.member.dao;
 
-import name.lkk.kkmall.member.entity.MemberLevelEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import name.lkk.kkmall.member.entity.MemberLevelEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MemberLevelDao extends BaseMapper<MemberLevelEntity> {
-	
+    MemberLevelEntity getDefaultLevel();
 }

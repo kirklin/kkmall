@@ -210,30 +210,37 @@ CREATE TABLE `sms_seckill_promotion`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_seckill_session`;
 CREATE TABLE `sms_seckill_session`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '场次名称',
-  `start_time` datetime(0) NULL DEFAULT NULL COMMENT '每日开始时间',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '每日结束时间',
-  `status` tinyint(1) NULL DEFAULT NULL COMMENT '启用状态',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '秒杀活动场次' ROW_FORMAT = Dynamic;
+                                        `id`          bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                        `name`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '场次名称',
+                                        `start_time`  datetime(0)                                                   NULL DEFAULT NULL COMMENT '每日开始时间',
+                                        `end_time`    datetime(0)                                                   NULL DEFAULT NULL COMMENT '每日结束时间',
+                                        `status`      tinyint(1)                                                    NULL DEFAULT NULL COMMENT '启用状态',
+                                        `create_time` datetime(0)                                                   NULL DEFAULT NULL COMMENT '创建时间',
+                                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci COMMENT = '秒杀活动场次'
+  ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sms_seckill_session
 -- ----------------------------
-INSERT INTO `sms_seckill_session` VALUES (1, '谷粒秒杀', '2020-07-10 00:15:00', '2020-07-10 15:59:59', 1, '2020-07-09 15:14:21');
-INSERT INTO `sms_seckill_session` VALUES (2, '谷粒秒杀', '2020-07-09 05:15:00', '2020-07-09 15:59:59', 1, '2020-07-09 05:14:47');
+INSERT INTO `sms_seckill_session`
+VALUES (1, 'KK秒杀', '2020-07-10 00:15:00', '2020-07-10 15:59:59', 1, '2020-07-09 15:14:21');
+INSERT INTO `sms_seckill_session`
+VALUES (2, 'KK秒杀', '2020-07-09 05:15:00', '2020-07-09 15:59:59', 1, '2020-07-09 05:14:47');
 
 -- ----------------------------
 -- Table structure for sms_seckill_sku_notice
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_seckill_sku_notice`;
-CREATE TABLE `sms_seckill_sku_notice`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `member_id` bigint(20) NULL DEFAULT NULL COMMENT 'member_id',
-  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'sku_id',
-  `session_id` bigint(20) NULL DEFAULT NULL COMMENT '活动场次id',
+CREATE TABLE `sms_seckill_sku_notice`
+(
+    `id`          bigint(20)  NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `member_id`   bigint(20)  NULL DEFAULT NULL COMMENT 'member_id',
+    `sku_id`      bigint(20)  NULL DEFAULT NULL COMMENT 'sku_id',
+    `session_id`  bigint(20)  NULL DEFAULT NULL COMMENT '活动场次id',
   `subcribe_time` datetime(0) NULL DEFAULT NULL COMMENT '订阅时间',
   `send_time` datetime(0) NULL DEFAULT NULL COMMENT '发送时间',
   `notice_type` tinyint(1) NULL DEFAULT NULL COMMENT '通知方式[0-短信，1-邮件]',

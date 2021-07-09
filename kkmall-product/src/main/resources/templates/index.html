@@ -93,7 +93,7 @@
         <ul>
             <li th:if="${session.loginUser} !=null">
               <a>欢迎，[[${session.loginUser.username}]]</a>
-<!--              <a th:href="'http://member.kkmall.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>-->
+              <a th:href="'http://member.kkmall.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>
             </li>
             <li th:if="${session.loginUser} !=null">
               <a href="http://auth.kkmall.com/oauth2.0/logout">退出登录</a>

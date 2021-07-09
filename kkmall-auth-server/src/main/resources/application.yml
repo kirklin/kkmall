@@ -1,3 +1,5 @@
+ipAddr: localhost
+
 server:
   port: 20000
 
@@ -8,6 +10,13 @@ spring:
         server-addr: localhost:8848
   application:
     name: kkmall-auth-server
+  session:
+    store-type: redis
+  redis:
+    host: ${ipAddr}
+    port: 6379
+    password: linkekun
+
   mvc:
     static-path-pattern: /static/**
   thymeleaf:

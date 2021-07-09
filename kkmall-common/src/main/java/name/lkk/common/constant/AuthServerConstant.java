@@ -1,9 +1,7 @@
 package name.lkk.common.constant;
 
 /**
- * <p>Title: AuthServerConstant</p>
- * Description：
- * date：2020/6/25 16:03
+ * 认证服务常量
  */
 public class AuthServerConstant {
 	public static final String SMS_CODE_CACHE_PREFIX = "sms:code:";
