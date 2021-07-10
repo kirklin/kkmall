@@ -1,13 +1,17 @@
 package name.lkk.common.constant;
 
 /**
- * <p>Title: CartConstant</p>
- * Description：
- * date：2020/6/27 22:37
+ * 购物车常量
+ *
+ * @author kirklin
  */
 public class CartConstant {
-
-	public static final String TEMP_USER_COOKIE_NAME = "user-key";
-
-	public static final int TEMP_USER_COOKIE_TIME_OUT = 60 * 60 * 24 * 30;
+    /**
+     * 购物车临时用户COOKIE
+     */
+    public static final String TEMP_USER_COOKIE_NAME = "user-key";
+    /**
+     * 购物车临时用户COOKIE过期时间
+     */
+    public static final int TEMP_USER_COOKIE_TIME_OUT = 60 * 60 * 24 * 30;
 }
