@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 购物车商品项，！本VO的GET，SET方法非默认实现。
  */
-public class CartItem {
+public class CartItemVo {
 
     private Long skuId;
 
@@ -19,7 +19,7 @@ public class CartItem {
 
     private String image;
 
-    private List<String> skuAttr;
+    private List<String> skuAttrValues;
 
     /**
      * 价格
@@ -65,12 +65,12 @@ public class CartItem {
         this.image = image;
     }
 
-    public List<String> getSkuAttr() {
-        return skuAttr;
+    public List<String> getSkuAttrValues() {
+        return skuAttrValues;
     }
 
-    public void setSkuAttr(List<String> skuAttr) {
-        this.skuAttr = skuAttr;
+    public void setSkuAttrValues(List<String> skuAttrValues) {
+        this.skuAttrValues = skuAttrValues;
     }
 
     public BigDecimal getPrice() {

@@ -7,6 +7,7 @@ import name.lkk.kkmall.product.service.SkuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -25,11 +26,22 @@ public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
 
-    @GetMapping("/{skuId}/price")
-    public R getPrice(@PathVariable("skuId") Long skuId){
+    /**
+     * 根据skuId查询当前商品的价格
+     *
+     * @param skuId
+     * @return
+     */
+    @GetMapping(value = "/{skuId}/price")
+    public BigDecimal getPrice(@PathVariable("skuId") Long skuId) {
 
-        SkuInfoEntity byId = skuInfoService.getById(skuId);
-        return R.ok().setData(byId.getPrice().toString());
+        //获取当前商品的信息
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+
+        //获取商品的价格
+        BigDecimal price = skuInfo.getPrice();
+
+        return price;
     }
 
     /**

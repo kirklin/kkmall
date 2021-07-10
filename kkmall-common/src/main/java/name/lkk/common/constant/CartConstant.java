@@ -14,4 +14,6 @@ public class CartConstant {
      * 购物车临时用户COOKIE过期时间
      */
     public static final int TEMP_USER_COOKIE_TIME_OUT = 60 * 60 * 24 * 30;
+
+    public final static String CART_PREFIX = "kkmall:cart:";
 }
