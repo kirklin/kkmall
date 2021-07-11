@@ -24,6 +24,12 @@
             <artifactId>kkmall-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--引入消息队列-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
         <!-- 整合Spring-seesion  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
