@@ -1,19 +1,15 @@
 package name.lkk.kkmall.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import name.lkk.kkmall.ware.entity.WareInfoEntity;
-import name.lkk.kkmall.ware.service.WareInfoService;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
+import name.lkk.kkmall.ware.entity.WareInfoEntity;
+import name.lkk.kkmall.ware.service.WareInfoService;
+import name.lkk.kkmall.ware.vo.FareVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -30,12 +26,19 @@ public class WareInfoController {
     @Autowired
     private WareInfoService wareInfoService;
 
+
+    @GetMapping("/fare")
+    public R getFare(@RequestParam("addrId") Long addrId) {
+        FareVo fare = wareInfoService.getFare(addrId);
+        return R.ok().setData(fare);
+    }
+
     /**
      * 列表
      */
     @RequestMapping("/list")
     //@RequiresPermissions("ware:wareinfo:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareInfoService.queryPage(params);
 
         return R.ok().put("page", page);

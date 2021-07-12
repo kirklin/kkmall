@@ -19,6 +19,15 @@ spring:
     host: ${ipAddr}
     port: 6379
     password: linkekun
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
@@ -27,3 +36,9 @@ mybatis-plus:
       id-type: auto
 server:
   port: 9000
+
+kkmall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
