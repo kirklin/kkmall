@@ -185,12 +185,10 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> operations = redisTemplate.boundHashOps(cartKey);
         List<Object> values = operations.values();
         if (values != null && values.size() > 0) {
-            List<CartItemVo> cartItemVoStream = values.stream().map((obj) -> {
+            return values.stream().map((obj) -> {
                 String str = (String) obj;
-                CartItemVo cartItem = JSON.parseObject(str, CartItemVo.class);
-                return cartItem;
+                return JSON.parseObject(str, CartItemVo.class);
             }).collect(Collectors.toList());
-            return cartItemVoStream;
         }
         return null;
 
@@ -208,7 +206,7 @@ public class CartServiceImpl implements CartService {
         //查询购物车里面的商品
         CartItemVo cartItem = getCartItem(skuId);
         //修改商品状态
-        cartItem.setCheck(check == 1 ? true : false);
+        cartItem.setCheck(check == 1);
 
         //序列化存入redis中
         String redisValue = JSON.toJSONString(cartItem);
@@ -269,12 +267,11 @@ public class CartServiceImpl implements CartService {
             }
             //筛选出选中的
             cartItemVoList = cartItems.stream()
-                    .filter(items -> items.getCheck())
-                    .map(item -> {
+                    .filter(CartItemVo::getCheck)
+                    .peek(item -> {
                         //更新为最新的价格（查询数据库）
                         BigDecimal price = productFeignService.getPrice(item.getSkuId());
                         item.setPrice(price);
-                        return item;
                     })
                     .collect(Collectors.toList());
         }
