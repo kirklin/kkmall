@@ -284,9 +284,10 @@ a {
         #max nav .nav_min .nav_top .nav_top_one {
           width: 12%; }
           #max nav .nav_min .nav_top .nav_top_one img {
-            width: 100%;
-            height: 55px;
-            margin-top: 23px; }
+            width: 90px;
+            height: 90px;
+            margin-top: 23px;
+          }
         #max nav .nav_min .nav_top .nav_top_two {
           width: 50%;
           height: 100%;
