@@ -1,10 +1,14 @@
 package name.lkk.kkmall.ware.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import name.lkk.common.exception.BizCodeEnum;
+import name.lkk.common.exception.NotStockException;
 import name.lkk.common.to.es.SkuHasStockVo;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
 import name.lkk.kkmall.ware.entity.WareSkuEntity;
 import name.lkk.kkmall.ware.service.WareSkuService;
+import name.lkk.kkmall.ware.vo.WareSkuLockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,17 +25,31 @@ import java.util.Map;
  * @email linkirk@163.com
  * @date 2021-06-07 16:44:32
  */
+@Slf4j
 @RestController
 @RequestMapping("ware/waresku")
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+
+    @PostMapping("/lock/order")
+    public R orderLockStock(@RequestBody WareSkuLockVo vo) {
+        try {
+            wareSkuService.orderLockStock(vo);
+            return R.ok();
+        } catch (NotStockException e) {
+            log.warn("\n" + e.getMessage());
+        }
+        return R.error(BizCodeEnum.NOT_STOCK_EXCEPTION.getCode(), BizCodeEnum.NOT_STOCK_EXCEPTION.getMsg());
+    }
+
+
     /**
      * 查询sku是否有库存
      * 返回当前id stock量
      */
     @PostMapping("/hasStock")
-    public R getSkuHasStock(@RequestBody List<Long> skuIds){
+    public R getSkuHasStock(@RequestBody List<Long> skuIds) {
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
         return R.ok().setData(vos);
     }
