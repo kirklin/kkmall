@@ -21,10 +21,26 @@ public interface OrderService extends IService<OrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
+    OrderEntity getOrderByOrderSn(String orderSn);
+
+    /**
+     * 确认订单
+     *
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
 
+    /**
+     * 提交订单
+     *
+     * @param submitVo
+     * @return
+     */
     SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo);
 
 
+    void closeOrder(OrderEntity entity);
 }
 

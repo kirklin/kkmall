@@ -6,11 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-/**
- * <p>Title: OrderFeignService</p>
- * Description：
- * date：2020/7/3 22:15
- */
+
 @FeignClient("kkmall-order")
 public interface OrderFeignService {
 

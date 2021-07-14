@@ -42,3 +42,17 @@ kkmall:
     core-size: 20
     max-size: 200
     keep-alive-time: 10
+
+kkMallRabbitmq:
+  MQConfig:
+    # 订单队列
+    queues: order.release.order.queue
+    delayQueue: order.delay.queue
+    eventExchange: order-event-exchange
+    routingKey: order.release.order
+    createOrder: order.create.order
+    # 订单自动过期时间 单位:(毫秒)
+    ttl: 900000
+    # 库存解锁队列
+    ReleaseOther: stock.release.stock.queue
+    ReleaseOtherKey: order.release.other

@@ -1,16 +1,16 @@
 package name.lkk.kkmall.ware.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
-
 import name.lkk.kkmall.ware.dao.WareOrderTaskDao;
 import name.lkk.kkmall.ware.entity.WareOrderTaskEntity;
 import name.lkk.kkmall.ware.service.WareOrderTaskService;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("wareOrderTaskService")
@@ -24,6 +24,11 @@ public class WareOrderTaskServiceImpl extends ServiceImpl<WareOrderTaskDao, Ware
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn) {
+        return this.getOne(new QueryWrapper<WareOrderTaskEntity>().eq("order_sn", orderSn));
     }
 
 }

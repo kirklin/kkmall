@@ -22,3 +22,13 @@ mybatis-plus:
       id-type: auto
 server:
   port: 11000
+
+kkMallRabbitmq:
+  MQConfig:
+    queues: stock.release.stock.queue
+    delayQueue: stock.delay.queue
+    eventExchange: stock-event-exchange
+    routingKey: stock.locked
+    letterRoutingKey: stock.release
+    # 库存自动过期时间 单位:(毫秒)
+    ttl: 900000

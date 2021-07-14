@@ -2,6 +2,8 @@ package name.lkk.kkmall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import name.lkk.common.to.es.SkuHasStockVo;
+import name.lkk.common.to.mq.OrderTo;
+import name.lkk.common.to.mq.StockLockedTo;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.kkmall.ware.entity.WareSkuEntity;
 import name.lkk.kkmall.ware.vo.WareSkuLockVo;
@@ -36,5 +38,11 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     Boolean orderLockStock(WareSkuLockVo vo);
 
 
+    void unlockStock(StockLockedTo to);
+
+    /**
+     * 由于订单超时而自动释放订单之后来解锁库存
+     */
+    void unlockStock(OrderTo to);
 }
 

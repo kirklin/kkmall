@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import name.lkk.common.enume.OrderStatusEnum;
 import name.lkk.common.exception.NotStockException;
+import name.lkk.common.to.mq.OrderTo;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
 import name.lkk.common.utils.R;
@@ -25,7 +26,11 @@ import name.lkk.kkmall.order.service.OrderItemService;
 import name.lkk.kkmall.order.service.OrderService;
 import name.lkk.kkmall.order.to.OrderCreateTo;
 import name.lkk.kkmall.order.vo.*;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -67,6 +72,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Value("${kkMallRabbitmq.MQConfig.eventExchange}")
+    private String eventExchange;
+
+    @Value("${kkMallRabbitmq.MQConfig.createOrder}")
+    private String createOrder;
+
+    @Value("${kkMallRabbitmq.MQConfig.ReleaseOtherKey}")
+    private String ReleaseOtherKey;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     private ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
 
 
@@ -78,6 +95,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public OrderEntity getOrderByOrderSn(String orderSn) {
+        return this.getOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
     }
 
     @Override
@@ -189,7 +211,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 if (r.getCode() == 0) {
                     // 库存足够 锁定成功 给MQ发送消息
                     submitVo.setOrderEntity(order.getOrder());
-//                    rabbitTemplate.convertAndSend(this.eventExchange, this.createOrder, order.getOrder());
+                    rabbitTemplate.convertAndSend(this.eventExchange, this.createOrder, order.getOrder());
 //					int i = 10/0;
                 } else {
                     // 锁定失败
@@ -202,6 +224,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             }
         }
         return submitVo;
+    }
+
+
+    @Override
+    public void closeOrder(OrderEntity entity) {
+        log.info("收到过期的订单信息--准关闭订单:" + entity.getOrderSn());
+        // 查询这个订单的最新状态
+        OrderEntity orderEntity = this.getById(entity.getId());
+        if (orderEntity.getStatus().equals(OrderStatusEnum.CREATE_NEW.getCode())) {
+            OrderEntity update = new OrderEntity();
+            update.setId(entity.getId());
+            update.setStatus(OrderStatusEnum.CANCELED.getCode());
+            this.updateById(update);
+            // 发送给MQ告诉它有一个订单被自动关闭了
+            OrderTo orderTo = new OrderTo();
+            BeanUtils.copyProperties(orderEntity, orderTo);
+            try {
+                // 保证消息 100% 发出去 每一个消息在数据库保存详细信息
+                // 定期扫描数据库 将失败的消息在发送一遍
+                rabbitTemplate.convertAndSend(eventExchange, ReleaseOtherKey, orderTo);
+            } catch (AmqpException e) {
+                // 将没发送成功的消息进行重试发送.
+            }
+        }
     }
 
 
