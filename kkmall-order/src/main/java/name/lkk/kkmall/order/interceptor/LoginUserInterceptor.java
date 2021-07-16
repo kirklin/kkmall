@@ -24,12 +24,12 @@ public class LoginUserInterceptor implements HandlerInterceptor {
 
         String uri = request.getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
-        boolean match = antPathMatcher.match("/order/order/status/**", uri);
-        boolean match1 = antPathMatcher.match("/payed/notify", uri);
-        if (match || match1) {
+        if (antPathMatcher.match("/order/order/status/**", uri)) {
             return true;
         }
-
+        if (antPathMatcher.match("/payed/notify", uri)) {
+            return true;
+        }
         //获取登录的用户信息
         MemberRsepVo memberRsepVo = (MemberRsepVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
 

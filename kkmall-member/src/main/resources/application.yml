@@ -13,6 +13,15 @@ spring:
         server-addr: localhost:8848
   application:
     name: kkmall-member
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/
 
   session:
     store-type: redis

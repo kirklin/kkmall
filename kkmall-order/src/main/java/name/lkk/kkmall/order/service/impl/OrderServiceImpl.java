@@ -17,6 +17,7 @@ import name.lkk.kkmall.order.constant.OrderConstant;
 import name.lkk.kkmall.order.dao.OrderDao;
 import name.lkk.kkmall.order.entity.OrderEntity;
 import name.lkk.kkmall.order.entity.OrderItemEntity;
+import name.lkk.kkmall.order.entity.PaymentInfoEntity;
 import name.lkk.kkmall.order.feign.CartFeignService;
 import name.lkk.kkmall.order.feign.MemberFeignService;
 import name.lkk.kkmall.order.feign.ProductFeignService;
@@ -24,6 +25,7 @@ import name.lkk.kkmall.order.feign.WmsFeignService;
 import name.lkk.kkmall.order.interceptor.LoginUserInterceptor;
 import name.lkk.kkmall.order.service.OrderItemService;
 import name.lkk.kkmall.order.service.OrderService;
+import name.lkk.kkmall.order.service.PaymentInfoService;
 import name.lkk.kkmall.order.to.OrderCreateTo;
 import name.lkk.kkmall.order.vo.*;
 import org.springframework.amqp.AmqpException;
@@ -56,6 +58,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    PaymentInfoService paymentInfoService;
 
     @Autowired
     private MemberFeignService memberFeignService;
@@ -248,6 +253,73 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 // 将没发送成功的消息进行重试发送.
             }
         }
+    }
+
+    @Override
+    public PayVo getOrderPay(String orderSn) {
+        PayVo payVo = new PayVo();
+        OrderEntity order = this.getOrderByOrderSn(orderSn);
+        // 保留2位小数位向上补齐
+        payVo.setTotal_amount(order.getTotalAmount().add(order.getFreightAmount() == null ? new BigDecimal("0") : order.getFreightAmount()).setScale(2, BigDecimal.ROUND_UP).toString());
+        payVo.setOut_trade_no(order.getOrderSn());
+        List<OrderItemEntity> entities = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
+        payVo.setSubject("kkmall");
+        payVo.setBody("kkmall");
+        if (null != entities.get(0).getSkuName() && entities.get(0).getSkuName().length() > 1) {
+//			payVo.setSubject(entities.get(0).getSkuName());
+//			payVo.setBody(entities.get(0).getSkuName());
+            payVo.setSubject("kkmall");
+            payVo.setBody("kkmall");
+        }
+        return payVo;
+    }
+
+    @Override
+    public PageUtils queryPageWithItem(Map<String, Object> params) {
+        MemberRsepVo rsepVo = LoginUserInterceptor.threadLocal.get();
+//        if (rsepVo==null){
+//            rsepVo = new MemberRsepVo();
+//            rsepVo.setId(14L);
+//            log.warn("警告，用户未进入订单系统就查询个人订单，已展示系统默认数据");
+//        }
+        IPage<OrderEntity> page = this.page(
+                new Query<OrderEntity>().getPage(params),
+                // 查询这个用户的最新订单 [降序排序]
+                new QueryWrapper<OrderEntity>().eq("member_id", rsepVo.getId()).orderByDesc("id")
+        );
+
+        List<OrderEntity> order_sn = page.getRecords().stream().peek(order -> {
+            // 查询这个订单关联的所有订单项
+            List<OrderItemEntity> orderSn = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
+            order.setItemEntities(orderSn);
+        }).collect(Collectors.toList());
+        log.info(order_sn.toString());
+        page.setRecords(order_sn);
+        return new PageUtils(page);
+    }
+
+    @Override
+    public String handlePayResult(PayAsyncVo vo) {
+        // 1.保存交易流水
+        PaymentInfoEntity infoEntity = new PaymentInfoEntity();
+        infoEntity.setAlipayTradeNo(vo.getTrade_no());
+        infoEntity.setOrderSn(vo.getOut_trade_no());
+        //		TRADE_SUCCESS
+        infoEntity.setPaymentStatus(vo.getTrade_status());
+        infoEntity.setCallbackTime(vo.getNotify_time());
+        infoEntity.setSubject(vo.getSubject());
+        infoEntity.setTotalAmount(new BigDecimal(vo.getTotal_amount()));
+        infoEntity.setCreateTime(vo.getGmt_create());
+        paymentInfoService.save(infoEntity);
+
+        // 2.修改订单状态信息
+        if (OrderConstant.ALIPAY_TRADE_SUCCESS.equals(vo.getTrade_status()) || OrderConstant.ALIPAY_TRADE_FINISHED.equals(vo.getTrade_status())) {
+            // 支付成功
+            String orderSn = vo.getOut_trade_no();
+            log.info("支付成功");
+            this.baseMapper.updateOrderStatus(orderSn, OrderStatusEnum.PAYED.getCode());
+        }
+        return "success";
     }
 
 

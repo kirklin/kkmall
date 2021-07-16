@@ -24,6 +24,13 @@
             <artifactId>kkmall-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--        支付宝支付SDK-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.10.29.ALL</version>
+        </dependency>
+
         <!--引入消息队列-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

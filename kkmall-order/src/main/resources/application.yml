@@ -56,3 +56,10 @@ kkMallRabbitmq:
     # 库存解锁队列
     ReleaseOther: stock.release.stock.queue
     ReleaseOtherKey: order.release.other
+
+alipay:
+  app_id: 2021000117689509
+  # 支付宝异步回调通知 这个来感应订单是否完成
+  notify_url: http://order.kkmall.com/payed/notify
+  return_url: http://member.kkmall.com/memberOrder.html
+  timeout: 15m

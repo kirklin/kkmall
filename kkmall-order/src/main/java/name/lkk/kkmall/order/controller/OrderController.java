@@ -1,5 +1,6 @@
 package name.lkk.kkmall.order.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.R;
 import name.lkk.kkmall.order.entity.OrderEntity;
@@ -20,10 +21,22 @@ import java.util.Map;
  * @date 2021-06-07 16:38:57
  */
 @RestController
+@Slf4j
 @RequestMapping("order/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    /**
+     * 查询当前登录的用户的所有订单信息
+     */
+    @PostMapping("/listWithItem")
+    public R listWithItem(@RequestBody Map<String, Object> params) {
+        //   log.info("当前登录的用户的所有订单信息请求参数："+params);
+        PageUtils page = orderService.queryPageWithItem(params);
+        //  log.info("当前登录的用户的所有订单信息请求结果："+page);
+        return R.ok().put("page", page);
+    }
 
     @GetMapping("/status/{orderSn}")
     public R getOrderStatus(@PathVariable("orderSn") String orderSn) {
