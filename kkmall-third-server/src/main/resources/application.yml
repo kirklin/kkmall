@@ -5,6 +5,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8333
+        port: 8719
     alicloud:
       oss:
         endpoint: oss-cn-hangzhou.aliyuncs.com

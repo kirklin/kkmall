@@ -19,10 +19,10 @@ package name.lkk.common.exception;
  * 21: 库存
  */
 public enum BizCodeEnum {
-	UNKNOW_EXCEPTION(10000, "系统未知异常"),
-	VAILD_EXCEPTION(10001, "参数格式校验失败"),
+    UNKNOW_EXCEPTION(10000, "系统未知异常"),
+    VAILD_EXCEPTION(10001, "参数格式校验失败"),
     SMS_CODE_EXCEPTION(10002, "验证码获取频率太高,稍后再试"),
-    TO_MANY_REQUEST(10003, "请求流量过大"),
+    TOO_MANY_REQUEST(10003, "请求流量过大"),
     SMS_SEND_CODE_EXCEPTION(10403, "短信发送失败"),
     USER_EXIST_EXCEPTION(15001, "用户已经存在"),
     PHONE_EXIST_EXCEPTION(15002, "手机号已经存在"),

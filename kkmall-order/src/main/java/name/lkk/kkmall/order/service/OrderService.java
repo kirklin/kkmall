@@ -1,6 +1,7 @@
 package name.lkk.kkmall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import name.lkk.common.to.mq.SecKillOrderTo;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.kkmall.order.entity.OrderEntity;
 import name.lkk.kkmall.order.vo.*;
@@ -58,5 +59,8 @@ public interface OrderService extends IService<OrderEntity> {
      * @return
      */
     String handlePayResult(PayAsyncVo vo);
+
+    void createSecKillOrder(SecKillOrderTo secKillOrderTo);
+
 }
 

@@ -1,0 +1,49 @@
+ipAddr: localhost
+server:
+  port: 25000
+
+spring:
+  datasource:
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kkmall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 66CcFf!!
+  application:
+    name: kkmall-seckill
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8333
+        port: 8719
+  redis:
+    host: ${ipAddr}
+    port: 6379
+    password: linkekun
+  session:
+    store-type: redis
+  rabbitmq:
+    virtual-host: /
+    host: ${ipAddr}
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 50
+    #    scheduling:
+    #      pool:
+    #        size: 5
+
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug

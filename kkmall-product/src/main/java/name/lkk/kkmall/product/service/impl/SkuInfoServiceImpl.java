@@ -1,16 +1,20 @@
 package name.lkk.kkmall.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import name.lkk.common.utils.PageUtils;
 import name.lkk.common.utils.Query;
+import name.lkk.common.utils.R;
 import name.lkk.kkmall.product.dao.SkuInfoDao;
 import name.lkk.kkmall.product.entity.SkuImagesEntity;
 import name.lkk.kkmall.product.entity.SkuInfoEntity;
 import name.lkk.kkmall.product.entity.SpuInfoDescEntity;
+import name.lkk.kkmall.product.feign.SeckillFeignService;
 import name.lkk.kkmall.product.service.*;
 import name.lkk.kkmall.product.vo.ItemSaleAttrVo;
+import name.lkk.kkmall.product.vo.SeckillInfoVo;
 import name.lkk.kkmall.product.vo.SkuItemVo;
 import name.lkk.kkmall.product.vo.SpuItemAttrGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +50,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
      */
     @Autowired
     private ThreadPoolExecutor executor;
+
+    @Autowired
+    private SeckillFeignService seckillFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -147,7 +154,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             //4 获取spu介绍
             SpuInfoDescEntity spuInfo = spuInfoDescService.getById(res.getSpuId());
             skuItemVo.setDesc(spuInfo);
-        },executor);
+        }, executor);
 
         CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync(res -> {
             //5 获取spu规格参数信息
@@ -155,18 +162,19 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             skuItemVo.setGroupAttrs(attrGroups);
         }, executor);
 
-//        // 6.查询当前sku是否参与秒杀优惠
-//        CompletableFuture<Void> secKillFuture = CompletableFuture.runAsync(() -> {
-//            R skuSeckillInfo = seckillFeignService.getSkuSeckillInfo(skuId);
-//            if (skuSeckillInfo.getCode() == 0) {
-//                SeckillInfoVo seckillInfoVo = skuSeckillInfo.getData(new TypeReference<SeckillInfoVo>() {});
-//                skuItemVo.setSeckillInfoVo(seckillInfoVo);
-//            }
-//        }, executor);
+        // 6.查询当前sku是否参与秒杀优惠
+        CompletableFuture<Void> secKillFuture = CompletableFuture.runAsync(() -> {
+            R skuSeckillInfo = seckillFeignService.getSkuSeckillInfo(skuId);
+            if (skuSeckillInfo.getCode() == 0) {
+                SeckillInfoVo seckillInfoVo = skuSeckillInfo.getData(new TypeReference<SeckillInfoVo>() {
+                });
+                skuItemVo.setSeckillInfoVo(seckillInfoVo);
+            }
+        }, executor);
 
         // 等待所有任务都完成再返回
-        CompletableFuture.allOf(ImgageFuture,saleAttrFuture,descFuture,baseAttrFuture).get();
-//        CompletableFuture.allOf(ImgageFuture,saleAttrFuture,descFuture,baseAttrFuture,secKillFuture).get();
+//        CompletableFuture.allOf(ImgageFuture,saleAttrFuture,descFuture,baseAttrFuture).get();
+        CompletableFuture.allOf(ImgageFuture, saleAttrFuture, descFuture, baseAttrFuture, secKillFuture).get();
         return skuItemVo;
     }
 

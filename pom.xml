@@ -22,6 +22,7 @@
         <module>kkmall-gateway</module>
         <module>kkmall-mq</module>
         <module>kkmall-cart</module>
+        <module>kkmall-seckill</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
     </modules>
