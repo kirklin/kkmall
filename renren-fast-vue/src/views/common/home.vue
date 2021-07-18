@@ -8,11 +8,11 @@
       <li>动态菜单，通过菜单管理统一管理访问路由</li>
       <li>数据切换，通过mock配置对接口数据／mock模拟数据进行切换</li>
       <li>发布时，可动态配置CDN静态资源／切换新旧版本</li>
-      <li>演示地址：<a href="http://kk-Mall.top:8080/mall" target="_blank">http://KirkLin.top/mall</a> (账号密码：admin/admin)</li>
+      <li>演示地址：<a href="https://github.com/kirklin/kkmall" target="_blank">暂时下线</a> (账号密码：admin/admin)</li>
     </ul>
     <h3 target="_blank">读已提交：SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;</h3>
     <ul>
-      <li>项目Git地址：<a href="https://github.com/" target="_blank">https://github.com/</a></li>
+      <li>项目Git地址：<a href="https://github.com/kirklin/kkmall" target="_blank">https://github.com/kirklin/kkmall</a></li>
       <li>代码生成器：<a href="http://127.0.0.1:81/" target="_blank">KK-MAll_CODE</a></li>
     </ul>
     <h3>ES安装</h3>
