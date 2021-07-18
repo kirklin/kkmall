@@ -1,7 +1,0 @@
-# My hosts
-10.43.1.52 nay1
-10.43.1.52 order.kkmall.com seckill.kkmall.com kkmall.com search.kkmall.com
-10.43.1.52 item.kkmall.com auth.kkmall.com member.kkmall.com cart.kkmall.com
-
-# 单点登录
-127.0.0.1 ssoserver.com clientA.com clientB.com localhost

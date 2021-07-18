@@ -1,0 +1,5 @@
+127.0.0.1       localhost
+127.0.0.1       order.kkmall.com seckill.kkmall.com kkmall.com search.kkmall.com
+127.0.0.1       item.kkmall.com auth.kkmall.com member.kkmall.com cart.kkmall.com
+
+127.0.0.1       https://kkmall.com
