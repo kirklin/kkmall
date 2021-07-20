@@ -1,8 +1,10 @@
-# KK商城简介
+<p align="center">
+    <img src="https://socialify.git.ci/kirklin/kkmall/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark"/>
+    <br><strong><font size=50>KK商城</font></strong>
+    <br>`kkmall` 项目致力于打造一个完整的电商系统，整体采用现阶段流行技术来实现，后台采用前后端分离技术编写。
+    <br>    
+</p>
 
-### 前言
-
-`kkmall` 项目致力于打造一个完整的电商系统，采用现阶段流行技术来实现，采用前后端分离继续编写。
 
 ### 项目API接口文档
 
@@ -144,3 +146,8 @@ kkmall
 |     Nginx     | 1.19.6  |              http://nginx.org/en/download.html               |
 
 注意：以上的除了jdk都是采用docker方式进行安装，详细安装步骤可参考百度!!!
+
+## 历史Star
+
+[![Stargazers over time](https://starchart.cc/kirklin/kkmall.svg)](https://starchart.cc/kirklin/kkmall)
+      
