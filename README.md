@@ -4,7 +4,12 @@
     <br>`kkmall` 项目致力于打造一个完整的电商系统，整体采用现阶段流行技术来实现，后台采用前后端分离技术编写。
     <br>    
 </p>
-
+<p align="center">
+    <a href="https://github.com/kirklin/kkmall/stargazers"><img src="https://img.shields.io/github/stars/kirklin/kkmall.svg?style=popout-square" alt="GitHub stars"></a>
+    <a href="https://github.com/kirklin/kkmall/network/members"><img src="https://img.shields.io/github/forks/kirklin/kkmall.svg?style=popout-square" alt="GitHub forks"></a>
+    <a href="https://github.com/kirklin/kkmall/issues"><img src="https://img.shields.io/github/issues/kirklin/kkmall.svg?style=popout-square" alt="GitHub issues"></a>
+    <a href="https://sitoi.github.io/kkmall"><img src="https://visitor-badge.glitch.me/badge?page_id=kiklin-kkmall" alt="visitor"></a>
+</p>
 
 ### 项目API接口文档
 
