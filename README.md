@@ -8,8 +8,11 @@
     <a href="https://github.com/kirklin/kkmall/stargazers"><img src="https://img.shields.io/github/stars/kirklin/kkmall.svg?style=popout-square" alt="GitHub stars"></a>
     <a href="https://github.com/kirklin/kkmall/network/members"><img src="https://img.shields.io/github/forks/kirklin/kkmall.svg?style=popout-square" alt="GitHub forks"></a>
     <a href="https://github.com/kirklin/kkmall/issues"><img src="https://img.shields.io/github/issues/kirklin/kkmall.svg?style=popout-square" alt="GitHub issues"></a>
-    <a href="https://sitoi.github.io/kkmall"><img src="https://visitor-badge.glitch.me/badge?page_id=kiklin-kkmall" alt="visitor"></a>
+    <a href="https://github.com/kirklin/kkmall/graphs/traffic"><img src="https://visitor-badge.glitch.me/badge?page_id=kiklin-kkmall" alt="visitor"></a>
 </p>
+
+##  项目课程资料
+[查看文件列表中的课件与文档文件夹，或点击该超链接](https://github.com/kirklin/kkmall/tree/main/%E8%AF%BE%E4%BB%B6%E5%92%8C%E6%96%87%E6%A1%A3);
 
 ### 项目API接口文档
 
